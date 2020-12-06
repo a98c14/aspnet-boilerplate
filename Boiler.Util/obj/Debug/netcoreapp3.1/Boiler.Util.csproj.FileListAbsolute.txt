@@ -1,9 +1,0 @@
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Util\bin\Debug\netcoreapp3.1\Boiler.Util.deps.json
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Util\bin\Debug\netcoreapp3.1\Boiler.Util.dll
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Util\bin\Debug\netcoreapp3.1\Boiler.Util.pdb
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Util\obj\Debug\netcoreapp3.1\Boiler.Util.csprojAssemblyReference.cache
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Util\obj\Debug\netcoreapp3.1\Boiler.Util.AssemblyInfoInputs.cache
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Util\obj\Debug\netcoreapp3.1\Boiler.Util.AssemblyInfo.cs
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Util\obj\Debug\netcoreapp3.1\Boiler.Util.csproj.CoreCompileInputs.cache
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Util\obj\Debug\netcoreapp3.1\Boiler.Util.dll
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Util\obj\Debug\netcoreapp3.1\Boiler.Util.pdb

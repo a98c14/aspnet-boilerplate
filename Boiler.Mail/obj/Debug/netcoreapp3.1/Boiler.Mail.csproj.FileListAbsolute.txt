@@ -1,9 +1,0 @@
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Mail\bin\Debug\netcoreapp3.1\Boiler.Mail.deps.json
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Mail\bin\Debug\netcoreapp3.1\Boiler.Mail.dll
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Mail\bin\Debug\netcoreapp3.1\Boiler.Mail.pdb
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Mail\obj\Debug\netcoreapp3.1\Boiler.Mail.csprojAssemblyReference.cache
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Mail\obj\Debug\netcoreapp3.1\Boiler.Mail.AssemblyInfoInputs.cache
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Mail\obj\Debug\netcoreapp3.1\Boiler.Mail.AssemblyInfo.cs
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Mail\obj\Debug\netcoreapp3.1\Boiler.Mail.csproj.CoreCompileInputs.cache
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Mail\obj\Debug\netcoreapp3.1\Boiler.Mail.dll
-E:\Projects\aspnet-boilerplate\Boiler\Boiler.Mail\obj\Debug\netcoreapp3.1\Boiler.Mail.pdb
