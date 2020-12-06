@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Boiler.Auth.RequestModels;
+using Boiler.Auth.Services;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Boiler.Auth.Controllers
@@ -7,20 +9,35 @@ namespace Boiler.Auth.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        [HttpPost]
-        public async Task<IActionResult> Register()
+        private readonly IAuthService m_AuthService;
+
+        public AuthController(IAuthService authService)
         {
-            return Ok();
+            m_AuthService = authService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login()
+        public IActionResult Register([FromBody] RegisterRequest model)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var response = m_AuthService.Register(model);
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Logout()
+        public IActionResult Login([FromBody] LoginRequest model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var response = m_AuthService.Login(model, HttpContext.Connection.RemoteIpAddress.ToString());
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public IActionResult Logout()
         {
             return Ok();
         }
