@@ -35,7 +35,7 @@ namespace Boiler.Auth.Services
         public AuthResponse Login(LoginRequest model, string ipAddress)
         {
             var account = m_Context.Accounts.FirstOrDefault(x => x.Email == model.Email);
-            if (account == null || !account.IsVerified || !BC.Verify(model.Password, account.PasswordHash))
+            if (account == null || (!account.IsVerified && m_AuthSettings.RequiresVerification) || !BC.Verify(model.Password, account.PasswordHash))
                 throw new AppException("Invalid email or password");
 
             var jwtToken     = GenerateJwtToken(account);

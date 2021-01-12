@@ -1,14 +1,13 @@
 using Boiler.Api.Persistence;
 using Boiler.Auth.Extensions;
+using Boiler.Auth.Helpers;
 using Boiler.Auth.Interfaces;
+using Boiler.Util.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Reflection;
 
 namespace Boiler.Api
 {
@@ -27,9 +26,8 @@ namespace Boiler.Api
             services.AddCors(options => options.AddPolicy(CORS_ALL, build => build.AllowAnyHeader()
                                                                                   .AllowAnyOrigin()
                                                                                   .AllowAnyMethod()));
-
             services.AddDbContext<DataContext>();
-            
+            services.Configure<AuthSettings>(Configuration.GetSection("AuthSettings"));
             services.AddScoped<IAuthContext>(provider => provider.GetService<DataContext>());
             services.AddControllers()
                     .AddAuthControllers();
@@ -45,6 +43,7 @@ namespace Boiler.Api
 
             app.UseRouting();
             app.UseCors(CORS_ALL);
+            app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseAuth();
             app.UseEndpoints(endpoints =>
             {
