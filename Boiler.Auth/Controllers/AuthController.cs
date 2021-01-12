@@ -1,7 +1,7 @@
-﻿using Boiler.Auth.RequestModels;
+﻿using Boiler.Auth.Helpers;
+using Boiler.Auth.RequestModels;
 using Boiler.Auth.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Boiler.Auth.Controllers
 {
@@ -16,7 +16,7 @@ namespace Boiler.Auth.Controllers
             m_AuthService = authService;
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public IActionResult Register([FromBody] RegisterRequest model)
         {
             if (!ModelState.IsValid)
@@ -26,7 +26,7 @@ namespace Boiler.Auth.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPost("Login")]
         public IActionResult Login([FromBody] LoginRequest model)
         {
             if (!ModelState.IsValid)
@@ -36,10 +36,10 @@ namespace Boiler.Auth.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
-        public IActionResult Logout()
+        [HttpGet("Secret"), Authorize]
+        public IActionResult Secret()
         {
-            return Ok();
+            return Ok("Secret");
         }
     }
 }

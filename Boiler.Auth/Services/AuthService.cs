@@ -22,16 +22,14 @@ namespace Boiler.Auth.Services
     internal class AuthService : IAuthService
     {
         private readonly IConfiguration m_Configuration;
-        private readonly ILogger        m_Logger;
         private readonly IAuthContext   m_Context;
         private readonly AuthSettings   m_AuthSettings;
 
-        public AuthService(IAuthContext context, IConfiguration configuration, ILogger logger, IOptions<AuthSettings> authOptions)
+        public AuthService(IAuthContext context, IConfiguration configuration, IOptions<AuthSettings> authOptions)
         {
             m_AuthSettings = authOptions.Value;
             m_Context = context;
             m_Configuration = configuration;
-            m_Logger = logger;
         }
 
         public AuthResponse Login(LoginRequest model, string ipAddress)
@@ -79,7 +77,7 @@ namespace Boiler.Auth.Services
             m_Context.Accounts.Add(account);
             m_Context.SaveChanges();
 
-            // TODO: Send verification mail
+            // TODO(selim): Send verification mail
             return new AuthResponse
             {
                 Email = account.Email,
@@ -132,17 +130,41 @@ namespace Boiler.Auth.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(15),                
+                Expires = DateTime.UtcNow.AddMinutes(m_AuthSettings.AccessTokenTTL),                
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
 
+        private int? ValidateJwtToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(m_Configuration["Auth:Secret"]);
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero,
+                }, out SecurityToken validatedToken);
+                var jwtToken = (JwtSecurityToken)validatedToken;
+                var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                return accountId;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         private RefreshToken GenerateRefreshToken(string ipAddress) => new RefreshToken
         {
             Token          = GenerateTokenString(),
-            ExpirationDate = DateTime.UtcNow.AddDays(7),
+            ExpirationDate = DateTime.UtcNow.AddDays(m_AuthSettings.RefreshTokenTTL),
             CreationDate   = DateTime.UtcNow,
             CreatedByIp    = ipAddress
         };
