@@ -32,6 +32,7 @@ namespace Boiler.Api
             services.AddControllers()
                     .AddAuthControllers();
             services.AddAuth();
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -41,6 +42,8 @@ namespace Boiler.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Boilerplate API"));
             app.UseRouting();
             app.UseCors(CORS_ALL);
             app.UseMiddleware<ErrorHandlerMiddleware>();
