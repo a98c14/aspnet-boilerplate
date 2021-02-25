@@ -42,8 +42,12 @@ namespace Boiler.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Boilerplate API"));
+            if(env.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Boiler API"));
+            }
+
             app.UseRouting();
             app.UseCors(CORS_ALL);
             app.UseMiddleware<ErrorHandlerMiddleware>();
