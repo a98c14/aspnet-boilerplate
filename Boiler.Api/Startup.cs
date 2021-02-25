@@ -2,6 +2,7 @@ using Boiler.Api.Persistence;
 using Boiler.Auth.Extensions;
 using Boiler.Auth.Helpers;
 using Boiler.Auth.Interfaces;
+using Boiler.Live.Extensions;
 using Boiler.Util.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +33,7 @@ namespace Boiler.Api
             services.AddControllers()
                     .AddAuthControllers();
             services.AddAuth();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen();            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,14 +41,10 @@ namespace Boiler.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-
-            if(env.IsDevelopment())
-            {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Boiler API"));
             }
-
+            
             app.UseRouting();
             app.UseCors(CORS_ALL);
             app.UseMiddleware<ErrorHandlerMiddleware>();
@@ -55,6 +52,7 @@ namespace Boiler.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapBoilerLive();
             });
         }
     }

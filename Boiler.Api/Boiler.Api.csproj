@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Boiler.Auth\Boiler.Auth.csproj" />
+    <ProjectReference Include="..\Boiler.Live\Boiler.Live.csproj" />
   </ItemGroup>
 
 </Project>
