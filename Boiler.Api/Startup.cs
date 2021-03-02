@@ -33,6 +33,7 @@ namespace Boiler.Api
             services.AddControllers()
                     .AddAuthControllers();
             services.AddAuth();
+            services.AddBoilerLive();
             services.AddSwaggerGen();            
         }
 
