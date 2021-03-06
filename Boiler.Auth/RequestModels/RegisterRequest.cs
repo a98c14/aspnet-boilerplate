@@ -11,8 +11,5 @@ namespace Boiler.Auth.RequestModels
         [Required]
         [MinLength(6)]
         public string Password { get; set; }
-
-        [Required]
-        public string PasswordConfirmation { get; set; }
     }
 }
