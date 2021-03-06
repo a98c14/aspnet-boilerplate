@@ -16,7 +16,7 @@ namespace Boiler.Api.Extensions
                 var info = new OpenApiInfo
                 {
                     Title = "Boiler Api",
-                    Version = "v1",
+                    Version = "v1",                    
                 };
                 var scheme = new OpenApiSecurityScheme
                 {
@@ -35,7 +35,7 @@ namespace Boiler.Api.Extensions
                             Id = "Bearer"
                         }
                     },
-                    System.Array.Empty<string>() }
+                    Array.Empty<string>() }
                 };
                 c.SwaggerDoc("v1", info);
                 c.AddSecurityDefinition("Bearer", scheme);
