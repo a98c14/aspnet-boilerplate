@@ -36,6 +36,7 @@ namespace Boiler.Api
                     .AddAuthControllers();
             services.AddAuth();
             services.AddSwagger();
+            services.AddHttpContextAccessor();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
