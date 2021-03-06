@@ -152,7 +152,7 @@ namespace Boiler.Auth.Services
                     ClockSkew = TimeSpan.Zero,
                 }, out SecurityToken validatedToken);
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
                 return accountId;
             }
             catch

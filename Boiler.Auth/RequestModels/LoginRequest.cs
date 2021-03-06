@@ -4,7 +4,7 @@ namespace Boiler.Auth.RequestModels
 {
     public class LoginRequest
     {
-        [Required]
+        [Required, DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]
