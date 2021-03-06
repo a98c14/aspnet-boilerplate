@@ -130,7 +130,7 @@ namespace Boiler.Auth.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(m_AuthSettings.AccessTokenTTL),                
+                Expires = m_AuthSettings.AccessTokenTTL == 0 ? DateTime.MaxValue : DateTime.UtcNow.AddMinutes(m_AuthSettings.AccessTokenTTL),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
