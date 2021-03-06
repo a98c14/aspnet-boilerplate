@@ -1,10 +1,12 @@
-﻿using Boiler.Auth.Interfaces;
+﻿using Boiler.Auth.Helpers;
+using Boiler.Auth.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,12 +47,10 @@ namespace Boiler.Auth.Middleware
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "nameid").Value);
                 context.Items["Account"] = await dataContext.Accounts.FindAsync(accountId);
             }
-            catch 
-            {
-            }
+            catch  {}
         }
     }
 }
