@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Boiler.Templates.CSharp</id>
+    <version>0.0.1</version>
+    <description>
+      Boilerplate for ASP.NET CORE Web API
+    </description>
+    <authors>Selim Yesilkaya</authors>
+	<projectUrl>https://github.com/a98c14/aspnet-boilerplate</projectUrl>
+  <license type="expression">MIT</license>
+	<repository type="git" url="https://github.com/a98c14/aspnet-boilerplate.git" />
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+  </metadata>
+
+  <files>
+    <file src=".\**" exclude="**\bin\**\*;**\.vs\**;**\obj\**\*;**\*.user;**\*.lock.json;**\.git\**\*" />
+  </files>
+</package>
