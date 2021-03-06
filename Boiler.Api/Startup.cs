@@ -52,6 +52,7 @@ namespace Boiler.Api
 
             app.UseRouting();
             app.UseCors(CORS_ALL);
+            app.UseMiddleware<ResponseHeaderMiddleware>();
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseAuth();
             app.UseEndpoints(endpoints =>
