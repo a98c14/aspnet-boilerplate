@@ -12,10 +12,10 @@ using System.Text;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using Boiler.Auth.Helpers;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 
 namespace Boiler.Auth.Services
 {

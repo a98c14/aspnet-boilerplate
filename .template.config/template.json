@@ -11,5 +11,13 @@
         "language": "C#",
         "type": "project"
     },
-    "exclude": [ "**/[Bb]in/**", "**/[Oo]bj/**", ".template.config/**/*", "**/*.lock.json" ]
+    "exclude": [
+        "**/[Bb]in/**",
+        "**/[Oo]bj/**",
+        ".template.config/**/*",
+        "**/*.lock.json",
+        "modifiers",
+        ".vs/**",
+        ".git/**"
+    ]
 }
