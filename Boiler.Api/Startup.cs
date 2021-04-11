@@ -1,16 +1,13 @@
 using Boiler.Api.Extensions;
-using Boiler.Api.Persistence;
-using Boiler.Auth.Extensions;
-using Boiler.Auth.Helpers;
 using Boiler.Auth.Interfaces;
-using Boiler.Live.Extensions;
+using Boiler.Core.Auth.Extensions;
+using Boiler.Infrastructure;
 using Boiler.Util.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
 namespace Boiler.Api
 {
@@ -30,11 +27,9 @@ namespace Boiler.Api
                                                                                   .AllowAnyOrigin()
                                                                                   .AllowAnyMethod()));
             services.AddDbContext<DataContext>();
-            services.Configure<AuthSettings>(Configuration.GetSection("AuthSettings"));
             services.AddScoped<IAuthContext>(provider => provider.GetService<DataContext>());
-            services.AddControllers()
-                    .AddAuthControllers();
-            services.AddAuth();
+            services.AddControllers();
+            services.AddAuth(Configuration);
             services.AddSwagger();
             services.AddHttpContextAccessor();
         }
@@ -45,7 +40,8 @@ namespace Boiler.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => {
+                app.UseSwaggerUI(c =>
+                {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Boiler API");
                     c.RoutePrefix = string.Empty;
                 });
