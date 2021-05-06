@@ -1,22 +1,21 @@
 ﻿using BC = BCrypt.Net.BCrypt;
 using System;
-using Boiler.Auth.Interfaces;
 using System.Linq;
 using System.Security.Cryptography;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
-using Boiler.Core.Auth.Response;
-using Boiler.Core.Auth.Request;
-using Boiler.Core.Exceptions;
-using Boiler.Core.Auth.Entities;
-using Boiler.Core.Auth.Helpers;
+using Boiler.Api.Features.Auth.Response;
+using Boiler.Api.Features.Auth.Request;
+using Boiler.Domain.Auth;
+using Boiler.Api.Features.Auth.Helpers;
+using Boiler.Infrastructure.Interfaces;
+using Boiler.Api.Exceptions;
 
-namespace Boiler.Core.Auth.Services
+namespace Boiler.Api.Features.Auth
 {
     internal class AuthService : IAuthService
     {
@@ -33,7 +32,7 @@ namespace Boiler.Core.Auth.Services
         {
             var account = m_Context.Accounts.FirstOrDefault(x => x.Email == model.Email);
             if (account == null || (!account.IsVerified && m_AuthSettings.RequiresVerification) || !BC.Verify(model.Password, account.PasswordHash))
-                throw new AppException("Invalid email or password");
+                throw new ApiException("Invalid email or password");
 
             var jwtToken     = GenerateJwtToken(account);
             var refreshToken = GenerateRefreshToken(ipAddress);
@@ -60,7 +59,7 @@ namespace Boiler.Core.Auth.Services
         public AuthResponse Register(RegisterRequest model)
         {
             if (m_Context.Accounts.Any(x => x.Email == model.Email))
-                throw new AppException("User is already registered!");
+                throw new ApiException("User is already registered!");
 
             var account = new Account
             {

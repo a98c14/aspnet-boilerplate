@@ -1,7 +1,12 @@
-﻿using Boiler.Core.Auth.Entities;
-using Boiler.Auth.Interfaces;
+﻿using Boiler.Domain.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
+using Boiler.Infrastructure.Interfaces;
+using Boiler.Domain;
+using System;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Boiler.Infrastructure.Persistence
 {
@@ -19,6 +24,40 @@ namespace Boiler.Infrastructure.Persistence
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseSqlServer(Configuration.GetConnectionString("Development"));
+        }
+
+        public override int SaveChanges()
+        {
+            var entries = ChangeTracker
+               .Entries()
+               .Where(e => e.Entity is BaseEntity && (e.State == EntityState.Added || e.State == EntityState.Modified));
+
+            foreach (var entityEntry in entries)
+            {
+                ((BaseEntity)entityEntry.Entity).UpdatedAt = DateTime.Now;
+
+                if (entityEntry.State == EntityState.Added)
+                    ((BaseEntity)entityEntry.Entity).CreatedAt = DateTime.Now;
+            }
+
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            var entries = ChangeTracker
+               .Entries()
+               .Where(e => e.Entity is BaseEntity && (e.State == EntityState.Added || e.State == EntityState.Modified));
+
+            foreach (var entityEntry in entries)
+            {
+                ((BaseEntity)entityEntry.Entity).UpdatedAt = DateTime.Now;
+
+                if (entityEntry.State == EntityState.Added)
+                    ((BaseEntity)entityEntry.Entity).CreatedAt = DateTime.Now;
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

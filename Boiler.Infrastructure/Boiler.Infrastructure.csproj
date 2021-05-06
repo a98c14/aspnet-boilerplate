@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Boiler.Core\Boiler.Core.csproj" />
+    <ProjectReference Include="..\Boiler.Domain\Boiler.Domain.csproj" />
   </ItemGroup>
 
 </Project>

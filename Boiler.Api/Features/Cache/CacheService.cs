@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Boiler.Core.Auth.Entities
+namespace Boiler.Api.Features.Cache
 {
-    public enum Role
+    public class CacheService
     {
-        Admin,
-        User,
     }
 }

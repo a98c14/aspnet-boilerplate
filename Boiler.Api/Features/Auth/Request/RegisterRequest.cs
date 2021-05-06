@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Boiler.Core.Auth.Request
+namespace Boiler.Api.Features.Auth.Request
 {
     public class RegisterRequest
     {

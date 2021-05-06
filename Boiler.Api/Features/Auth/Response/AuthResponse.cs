@@ -1,6 +1,6 @@
-﻿using Boiler.Core.Auth.Entities;
+﻿using Boiler.Domain.Auth;
 
-namespace Boiler.Core.Auth.Response
+namespace Boiler.Api.Features.Auth.Response
 {
     public class AuthResponse
     {

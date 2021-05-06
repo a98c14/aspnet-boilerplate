@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Boiler.Core.Auth.Entities
+namespace Boiler.Domain.Auth
 {
     public class Account
     {

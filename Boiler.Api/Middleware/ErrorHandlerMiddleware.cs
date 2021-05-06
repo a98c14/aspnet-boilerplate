@@ -1,4 +1,4 @@
-﻿using Boiler.Core.Exceptions;
+﻿using Boiler.Api.Exceptions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -29,11 +29,13 @@ namespace Boiler.Util.Middleware
                 response.ContentType = "application/json";
                 response.StatusCode = error switch
                 {
-                    AppException         _ => (int)HttpStatusCode.BadRequest,
-                    KeyNotFoundException _ => (int)HttpStatusCode.NotFound,
-                                         _ => response.StatusCode = (int)HttpStatusCode.InternalServerError,
+                    ApiException            => (int)HttpStatusCode.BadRequest,
+                    NotImplementedException => (int)HttpStatusCode.NotImplemented,
+                    KeyNotFoundException    => (int)HttpStatusCode.NotFound,
+                                          _ => response.StatusCode = (int)HttpStatusCode.InternalServerError,
                 };
-                var result = JsonSerializer.Serialize(new { error = error?.Message });
+                var errors = new[] { error?.Message };
+                var result = JsonSerializer.Serialize(new { errors = new { Exception = errors } });
                 await response.WriteAsync(result);
             }
         }

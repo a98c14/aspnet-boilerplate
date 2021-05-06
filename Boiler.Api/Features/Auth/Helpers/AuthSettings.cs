@@ -1,4 +1,4 @@
-﻿namespace Boiler.Core.Auth.Helpers
+﻿namespace Boiler.Api.Features.Auth.Helpers
 {
     public class AuthSettings
     {

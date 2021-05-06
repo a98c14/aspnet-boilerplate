@@ -1,12 +1,11 @@
 ﻿using System.IO;
 using System.Linq;
-using Boiler.Auth.Interfaces;
-using Boiler.Core.Auth;
-using Boiler.Core.Auth.Entities;
-using Boiler.Core.Auth.Helpers;
-using Boiler.Core.Auth.Request;
-using Boiler.Core.Auth.Services;
-using Boiler.Core.Exceptions;
+using Boiler.Api.Exceptions;
+using Boiler.Api.Features.Auth;
+using Boiler.Api.Features.Auth.Helpers;
+using Boiler.Api.Features.Auth.Request;
+using Boiler.Domain.Auth;
+using Boiler.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -84,7 +83,7 @@ namespace Boiler.Core.Tests
             };
             using var scope = ServiceProvider.CreateScope();
             var authService = scope.ServiceProvider.GetService<IAuthService>();
-            Assert.Throws<AppException>(() =>
+            Assert.Throws<ApiException>(() =>
             {
                 var response = authService.Login(loginRequest, "127.0.0.1");
             });
@@ -100,7 +99,7 @@ namespace Boiler.Core.Tests
             };
             using var scope = ServiceProvider.CreateScope();
             var authService = scope.ServiceProvider.GetService<IAuthService>();
-            Assert.Throws<AppException>(() =>
+            Assert.Throws<ApiException>(() =>
             {
                 var response = authService.Login(loginRequest, "127.0.0.1");
             });
@@ -130,7 +129,7 @@ namespace Boiler.Core.Tests
             };
             using var scope = ServiceProvider.CreateScope();
             var authService = scope.ServiceProvider.GetService<IAuthService>();
-            var exception = Assert.Throws<AppException>(() =>
+            var exception = Assert.Throws<ApiException>(() =>
             {
                 var response = authService.Register(registerRequest);
             });

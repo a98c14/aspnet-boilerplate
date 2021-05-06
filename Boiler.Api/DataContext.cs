@@ -1,5 +1,5 @@
-﻿using Boiler.Core.Auth.Entities;
-using Boiler.Auth.Interfaces;
+﻿using Boiler.Domain.Auth;
+using Boiler.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 

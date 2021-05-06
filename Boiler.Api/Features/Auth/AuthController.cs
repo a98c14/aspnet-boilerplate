@@ -1,6 +1,6 @@
-﻿using Boiler.Core.Auth;
-using Boiler.Core.Auth.Helpers;
-using Boiler.Core.Auth.Request;
+﻿using Boiler.Api.Features.Auth;
+using Boiler.Api.Features.Auth.Helpers;
+using Boiler.Api.Features.Auth.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Boiler.Api.Controllers

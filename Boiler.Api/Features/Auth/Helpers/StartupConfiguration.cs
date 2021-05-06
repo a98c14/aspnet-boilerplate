@@ -1,11 +1,8 @@
-﻿using Boiler.Core.Auth.Helpers;
-using Boiler.Core.Auth;
-using Boiler.Core.Auth.Services;
-using Microsoft.AspNetCore.Builder;
+﻿using Boiler.Api.Features.Auth.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Boiler.Core.Auth.Extensions
+namespace Boiler.Api.Features.Auth.Extensions
 {
     public static class StartupConfiguration
     {
@@ -14,7 +11,5 @@ namespace Boiler.Core.Auth.Extensions
             services.Configure<AuthSettings>(x => configuration.GetSection("AuthSettings"));
             services.AddScoped<IAuthService, AuthService>();
         }
-
-
     }
 }

@@ -1,6 +1,5 @@
 using Boiler.Api.Extensions;
-using Boiler.Auth.Interfaces;
-using Boiler.Core.Auth.Extensions;
+using Boiler.Api.Features.Auth.Extensions;
 using Boiler.Infrastructure;
 using Boiler.Util.Middleware;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Boiler.Infrastructure.Interfaces;
 
 namespace Boiler.Api
 {

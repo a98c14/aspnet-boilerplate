@@ -1,4 +1,4 @@
-﻿using Boiler.Auth.Interfaces;
+﻿using Boiler.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

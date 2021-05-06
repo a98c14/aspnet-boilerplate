@@ -1,9 +1,9 @@
-﻿using Boiler.Core.Auth.Entities;
+﻿using Boiler.Domain.Auth;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Boiler.Auth.Interfaces
+namespace Boiler.Infrastructure.Interfaces
 {
     public interface IAuthContext
     {

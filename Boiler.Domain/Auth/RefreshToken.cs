@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Boiler.Core.Auth.Entities
+namespace Boiler.Domain.Auth
 {
     [Owned]
     public class RefreshToken

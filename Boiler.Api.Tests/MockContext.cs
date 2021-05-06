@@ -1,6 +1,6 @@
-﻿using Boiler.Core.Auth.Entities;
+﻿using Boiler.Domain.Auth;
 using Microsoft.EntityFrameworkCore;
-using Boiler.Auth.Interfaces;
+using Boiler.Infrastructure.Interfaces;
 
 namespace Boiler.Core.Tests
 {

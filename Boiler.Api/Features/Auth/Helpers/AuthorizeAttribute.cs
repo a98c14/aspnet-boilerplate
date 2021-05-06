@@ -1,10 +1,10 @@
 ﻿using System;
-using Boiler.Core.Auth.Entities;
+using Boiler.Domain.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Boiler.Core.Auth.Helpers
+namespace Boiler.Api.Features.Auth.Helpers
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute : Attribute, IAuthorizationFilter

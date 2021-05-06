@@ -1,7 +1,7 @@
-﻿using Boiler.Core.Auth.Request;
-using Boiler.Core.Auth.Response;
+﻿using Boiler.Api.Features.Auth.Request;
+using Boiler.Api.Features.Auth.Response;
 
-namespace Boiler.Core.Auth
+namespace Boiler.Api.Features.Auth
 {
     public interface IAuthService
     {
