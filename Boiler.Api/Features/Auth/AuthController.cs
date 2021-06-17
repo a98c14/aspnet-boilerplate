@@ -1,6 +1,7 @@
 ﻿using Boiler.Api.Features.Auth;
 using Boiler.Api.Features.Auth.Helpers;
 using Boiler.Api.Features.Auth.Request;
+using Boiler.Domain.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Boiler.Api.Controllers
@@ -39,7 +40,13 @@ namespace Boiler.Api.Controllers
         [HttpGet("Secret"), Authorize]
         public IActionResult Secret()
         {
-            return Ok("Secret");
+            return Ok("Secret 😎");
+        }
+        [HttpGet("Secret")]
+        [Authorize(Role.SuperAdmin)]
+        public IActionResult SecretSuperAdmin()
+        {
+            return Ok("Secret 🐱‍🏍");
         }
     }
 }

@@ -2,7 +2,9 @@
 {
     public enum Role
     {
+        SuperAdmin,
         Admin,
         User,
+        Visitor
     }
 }

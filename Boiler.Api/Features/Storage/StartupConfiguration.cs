@@ -7,7 +7,7 @@ namespace Boiler.Core.Storage
     {
         public static void AddBlobStorage(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<BlobStorageSettings>(x => configuration.GetSection("BlobStorage"));
+            services.Configure<BlobStorageSettings>(configuration.GetSection("BlobStorage"));
             services.AddScoped<BlobStorageService>();
         }
     }

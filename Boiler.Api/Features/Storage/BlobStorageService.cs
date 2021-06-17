@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
 
 namespace Boiler.Core.Storage
@@ -15,11 +16,13 @@ namespace Boiler.Core.Storage
         private readonly BlobServiceClient m_BlobServiceClient;
         private readonly BlobStorageSettings m_BlobSettings;
         private BlobContainerClient m_BlobContainerClient;
+        private FileExtensionContentTypeProvider m_fileExtensionProvider;
 
         public BlobStorageService(IOptions<BlobStorageSettings> settings)
         {
             m_BlobSettings = settings.Value;
             m_BlobServiceClient = new BlobServiceClient(m_BlobSettings.ConnectionString);
+            m_fileExtensionProvider = new FileExtensionContentTypeProvider();
         }
 
         public async Task<bool> DeleteAsync(string fileName)
@@ -63,8 +66,9 @@ namespace Boiler.Core.Storage
             await m_BlobContainerClient.CreateIfNotExistsAsync();
             await m_BlobContainerClient.SetAccessPolicyAsync(PublicAccessType.BlobContainer);
             var blobClient = m_BlobContainerClient.GetBlobClient(name);
-            await blobClient.UploadAsync(fileStream);
-            return blobClient.Uri.AbsoluteUri;
+            var blobOptions = new BlobUploadOptions { HttpHeaders = new BlobHttpHeaders { ContentType = GetContentTypeFromFileName(name) } };
+            await blobClient.UploadAsync(fileStream, blobOptions);
+            return $"{m_BlobContainerClient.Uri}/{blobClient.Name}";
         }
 
         public async Task<string> UploadAsync(IFormFile file, string name)
@@ -81,6 +85,15 @@ namespace Boiler.Core.Storage
         public async Task<string> UploadAsync(string base64, string name)
         {
             return await UploadAsync(Convert.FromBase64String(base64), name);
+        }
+        private string GetContentTypeFromFileName(string fileName)
+        {
+            string contentType;
+            if (!m_fileExtensionProvider.TryGetContentType(fileName, out contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            return contentType;
         }
     }
 }

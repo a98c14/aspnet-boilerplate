@@ -8,7 +8,7 @@ namespace Boiler.Api.Features.Auth.Extensions
     {
         public static void AddAuth(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<AuthSettings>(x => configuration.GetSection("AuthSettings"));
+            services.Configure<AuthSettings>(configuration.GetSection("AuthSettings"));
             services.AddScoped<IAuthService, AuthService>();
         }
     }
