@@ -15,5 +15,7 @@ namespace Boiler.Api.Features.Auth
         void Logout();
 
         int GetIdFromToken(string token);
+
+        Task<List<Account>> GetUserListAsync();
     }
 }

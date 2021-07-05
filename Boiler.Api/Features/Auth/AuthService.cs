@@ -112,6 +112,33 @@ namespace Boiler.Api.Features.Auth
             return int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
 
+        public async Task<List<Account>> GetUserListAsync()
+        {
+            var cacheKey = "UserList";
+            List<Account> userList;
+            string serializedUsers;
+            var encodedUsers = await m_DistributedCache.GetAsync(cacheKey);
+
+            if (encodedUsers != null)
+            {
+                serializedUsers = Encoding.UTF8.GetString(encodedUsers);
+                userList = JsonConvert.DeserializeObject<List<Account>>(serializedUsers);
+            }
+            else
+            {
+                userList = await m_Context.Accounts.AsNoTracking().ToListAsync();
+                serializedUsers = JsonConvert.SerializeObject(userList);
+                encodedUsers = Encoding.UTF8.GetBytes(serializedUsers);
+                var options = new DistributedCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5))
+                    .SetAbsoluteExpiration(DateTime.Now.AddHours(3));
+                await m_DistributedCache.SetAsync(cacheKey, encodedUsers, options);
+            }
+            return userList;
+            // Ref: https://medium.com/net-core/in-memory-distributed-redis-caching-in-asp-net-core-62fb33925818
+            //      https://docs.microsoft.com/en-us/aspnet/core/performance/caching/distributed?view=aspnetcore-5.0
+        }
+
         private static string GenerateTokenString()
         {
             using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
