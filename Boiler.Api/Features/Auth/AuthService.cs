@@ -14,18 +14,24 @@ using Boiler.Domain.Auth;
 using Boiler.Api.Features.Auth.Helpers;
 using Boiler.Infrastructure.Interfaces;
 using Boiler.Api.Exceptions;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace Boiler.Api.Features.Auth
 {
     internal class AuthService : IAuthService
     {
-        private readonly IAuthContext   m_Context;
-        private readonly AuthSettings   m_AuthSettings;
+        private readonly IAuthContext m_Context;
+        private readonly AuthSettings m_AuthSettings;
+        private readonly IDistributedCache m_DistributedCache;
 
-        public AuthService(IAuthContext context, IOptions<AuthSettings> settings)
+        public AuthService(IAuthContext context, IOptions<AuthSettings> settings, IDistributedCache distributedCache)
         {
             m_AuthSettings = settings.Value;
             m_Context = context;
+            m_DistributedCache = distributedCache;
         }
 
         public AuthResponse Login(LoginRequest model, string ipAddress)
@@ -56,7 +62,7 @@ namespace Boiler.Api.Features.Auth
             throw new NotImplementedException();
         }
 
-        public AuthResponse Register(RegisterRequest model)
+        public AuthResponse Register(RegisterRequest model, Role role = Role.User)
         {
             if (m_Context.Accounts.Any(x => x.Email == model.Email))
                 throw new ApiException("User is already registered!");
@@ -66,7 +72,7 @@ namespace Boiler.Api.Features.Auth
                 CreationDate      = DateTime.UtcNow,
                 Email             = model.Email,
                 PasswordHash      = BC.HashPassword(model.Password),
-                Role              = Role.User,
+                Role              = role,
                 VerificationToken = GenerateTokenString(),
             };
 
@@ -77,7 +83,7 @@ namespace Boiler.Api.Features.Auth
             return new AuthResponse
             {
                 Email = account.Email,
-                Role  = account.Role,
+                Role = account.Role,
                 JwtToken = GenerateJwtToken(account),
             };
         }
