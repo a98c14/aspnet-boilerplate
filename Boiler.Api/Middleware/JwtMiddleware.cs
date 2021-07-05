@@ -35,7 +35,7 @@ namespace Boiler.Auth.Middleware
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(m_Configuration["Auth:Secret"]);
+                var key = Encoding.ASCII.GetBytes(m_Configuration["AuthSettings:Secret"]);
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
