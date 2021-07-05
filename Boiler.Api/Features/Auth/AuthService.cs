@@ -112,21 +112,28 @@ namespace Boiler.Api.Features.Auth
             return int.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
 
-        public async Task<List<Account>> GetUserListAsync()
+        public async Task<List<AuthResponse>> GetUserListAsync()
         {
             var cacheKey = "UserList";
-            List<Account> userList;
+            List<AuthResponse> userList;
             string serializedUsers;
             var encodedUsers = await m_DistributedCache.GetAsync(cacheKey);
 
             if (encodedUsers != null)
             {
                 serializedUsers = Encoding.UTF8.GetString(encodedUsers);
-                userList = JsonConvert.DeserializeObject<List<Account>>(serializedUsers);
+                userList = JsonConvert.DeserializeObject<List<AuthResponse>>(serializedUsers);
             }
             else
             {
-                userList = await m_Context.Accounts.AsNoTracking().ToListAsync();
+                userList = await m_Context.Accounts.AsNoTracking()
+                    .Select(a => new AuthResponse 
+                    { 
+                        Email = a.Email,
+                        Role = a.Role,
+                        RefreshToken = a.ResetToken 
+                    })
+                    .ToListAsync();
                 serializedUsers = JsonConvert.SerializeObject(userList);
                 encodedUsers = Encoding.UTF8.GetBytes(serializedUsers);
                 var options = new DistributedCacheEntryOptions()

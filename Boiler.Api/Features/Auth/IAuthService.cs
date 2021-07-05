@@ -16,6 +16,6 @@ namespace Boiler.Api.Features.Auth
 
         int GetIdFromToken(string token);
 
-        Task<List<Account>> GetUserListAsync();
+        Task<List<AuthResponse>> GetUserListAsync();
     }
 }
