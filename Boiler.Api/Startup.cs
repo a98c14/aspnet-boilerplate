@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Boiler.Infrastructure.Interfaces;
 
 namespace Boiler.Api
@@ -14,11 +13,13 @@ namespace Boiler.Api
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment m_HostContext;
         private const string CORS_ALL = "All";
 
-        public Startup(IConfiguration config)
+        public Startup(IConfiguration config, IHostingEnvironment hostContext)
         {
             Configuration = config;
+            m_HostContext = hostContext;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -32,9 +33,10 @@ namespace Boiler.Api
             services.AddAuth(Configuration);
             services.AddSwagger();
             services.AddHttpContextAccessor();
+            services.AddDistributedCache(m_HostContext, Configuration);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
