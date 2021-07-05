@@ -20,7 +20,7 @@ namespace Boiler.Api.Extensions
             m_db = db;
         }
 
-        public async Task SeedDatabase()
+        public void SeedDatabase()
         {
             if (!m_db.Accounts.Any(a => a.Role == Role.SuperAdmin))
             {

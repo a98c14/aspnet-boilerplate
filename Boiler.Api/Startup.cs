@@ -36,7 +36,7 @@ namespace Boiler.Api
             services.AddDistributedCache(m_HostContext, Configuration);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DatabaseSeedAgent dbSeed)
         {
             if (env.IsDevelopment())
             {
@@ -47,6 +47,7 @@ namespace Boiler.Api
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Boiler API");
                     c.RoutePrefix = string.Empty;
                 });
+                dbSeed.SeedDatabase();
             }
 
             app.UseRouting();
