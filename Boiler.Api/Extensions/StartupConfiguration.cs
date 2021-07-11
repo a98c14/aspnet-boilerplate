@@ -1,5 +1,7 @@
 ﻿using Boiler.Auth.Middleware;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
@@ -15,7 +17,7 @@ namespace Boiler.Api.Extensions
                 var info = new OpenApiInfo
                 {
                     Title = "Boiler Api",
-                    Version = "v1",                    
+                    Version = "v1",
                 };
                 var scheme = new OpenApiSecurityScheme
                 {
@@ -45,6 +47,21 @@ namespace Boiler.Api.Extensions
         public static void UseAuth(this IApplicationBuilder app)
         {
             app.UseMiddleware<JwtMiddleware>();
+        }
+
+        public static void AddDistributedCache(this IServiceCollection services, IHostingEnvironment m_HostContext, IConfiguration Configuration)
+        {
+            if (m_HostContext.IsDevelopment())
+                services.AddDistributedMemoryCache();
+            else
+            {
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    // Change it according to Redis hosting location.
+                    options.Configuration = Configuration["RedisLocation"];
+                    options.InstanceName = "SampleInstance";
+                });
+            }
         }
     }
 }

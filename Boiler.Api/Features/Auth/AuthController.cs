@@ -3,6 +3,7 @@ using Boiler.Api.Features.Auth.Helpers;
 using Boiler.Api.Features.Auth.Request;
 using Boiler.Domain.Auth;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Boiler.Api.Controllers
 {
@@ -23,7 +24,7 @@ namespace Boiler.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var response = m_AuthService.Register(model);
+            var response = m_AuthService.Register(model, Role.User);
             return Ok(response);
         }
 
@@ -42,11 +43,20 @@ namespace Boiler.Api.Controllers
         {
             return Ok("Secret 😎");
         }
-        [HttpGet("Secret")]
+
+        [HttpGet("SecretSuperAdmin")]
         [Authorize(Role.SuperAdmin)]
         public IActionResult SecretSuperAdmin()
         {
             return Ok("Secret 🐱‍🏍");
+        }
+
+        [HttpGet("Users")]
+        [Authorize(Role.Admin)]
+        public async Task<IActionResult> GetUserList()
+        {
+            var response = await m_AuthService.GetUserListAsync();
+            return Ok(response);
         }
     }
 }

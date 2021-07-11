@@ -12,7 +12,6 @@ namespace Boiler.Domain.Auth
 
         [Key]
         public int       Id              { get; set; }
-        public Account   Account         { get; set; }
         public string    Token           { get; set; }
         public string    CreatedByIp     { get; set; }
         public string    RevokedByIp     { get; set; }
